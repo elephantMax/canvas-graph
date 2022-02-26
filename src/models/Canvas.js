@@ -8,29 +8,20 @@ export default class Canvas {
     this.init()
   }
 
+  setOffsets() {
+    const { x, y } = this.el.getBoundingClientRect()
+    this.offsetX = x
+    this.offsetY = y
+  }
+
   init() {
     this.ctx = this.el.getContext('2d')
     this.el.setAttribute('width', this.width)
     this.el.setAttribute('height', this.height)
-
-    const { x, y } = this.el.getBoundingClientRect()
-    this.offsetX = x
-    this.offsetY = y
+    this.setOffsets = this.setOffsets.bind(this)
+    this.setOffsets()
     this.el.addEventListener('click', this.onClick)
-  }
-
-  getCloserPosition(x) {
-    let minVal = null
-    let position = null
-    this.positions.forEach((pos) => {
-      const distance = Math.abs(pos - x)
-      if (minVal === null || distance < minVal) {
-        minVal = distance
-        position = pos
-      }
-    })
-
-    return position
+    window.addEventListener('resize', this.setOffsets)
   }
 
   drawElement(element) {

@@ -30,6 +30,8 @@ const grid = new Grid({
   lineWidth: GRID_LINE_WIDTH,
 })
 
+grid.generateGrid()
+
 canvas.drawElement(grid)
 
 function canvasClickHandler(e) {
