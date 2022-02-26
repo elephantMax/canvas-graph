@@ -51,22 +51,17 @@ async function canvasClickHandler(e) {
     let yPos = dotInSelectedPos.y
     const step = 5
     const directionTop = y > dotInSelectedPos.y
-    await new Promise((resolve) => {
-      Animation.run(() => {
-        yPos = directionTop ? yPos + step : yPos - step
-        const newDot = new Dot(xPos, yPos)
-        rerenderAll()
-        newDot.remove()
-        if ((directionTop && yPos >= y) || (!directionTop && yPos <= y)) {
-          new Dot(xPos, y)
-          resolve()
-          return false
-        }
-      })
+    await Animation.run(() => {
+      yPos = directionTop ? yPos + step : yPos - step
+      const newDot = new Dot(xPos, yPos)
+      rerenderAll()
+      newDot.remove()
+      if ((directionTop && yPos >= y) || (!directionTop && yPos <= y)) {
+        return false
+      }
     })
-  } else {
-    new Dot(xPos, y)
   }
+  new Dot(xPos, y)
   rerenderAll()
 }
 
