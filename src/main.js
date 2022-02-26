@@ -2,6 +2,7 @@ import Canvas from './models/Canvas'
 import Grid from './models/Grid'
 import Dot from './models/Dot'
 import Line from './models/Line'
+import Animation from './models/Animation'
 
 //style
 import './assets/index.css'
@@ -34,19 +35,39 @@ grid.generateGrid()
 
 canvas.drawElement(grid)
 
-function canvasClickHandler(e) {
+const rerenderAll = () => {
+  Line.lines = []
+  Dot.connectDots()
+  canvas.redraw(grid, ...Dot.dots, ...Line.lines)
+}
+
+async function canvasClickHandler(e) {
   const { clientX, clientY } = e
   const x = clientX - this.offsetX
   const y = clientY - this.offsetY
   const xPos = grid.getCloserColl(x)
   const dotInSelectedPos = Dot.dots.find((item) => item.x === xPos)
   if (dotInSelectedPos) {
-    dotInSelectedPos.remove()
+    let yPos = dotInSelectedPos.y
+    const step = 5
+    const directionTop = y > dotInSelectedPos.y
+    await new Promise((resolve) => {
+      Animation.run(() => {
+        yPos = directionTop ? yPos + step : yPos - step
+        const newDot = new Dot(xPos, yPos)
+        rerenderAll()
+        newDot.remove()
+        if ((directionTop && yPos >= y) || (!directionTop && yPos <= y)) {
+          new Dot(xPos, y)
+          resolve()
+          return false
+        }
+      })
+    })
+  } else {
+    new Dot(xPos, y)
   }
-  new Dot(xPos, y)
-  Line.lines = []
-  Dot.connectDots()
-  this.redraw(grid, ...Dot.dots, ...Line.lines)
+  rerenderAll()
 }
 
 const clearButton = document.querySelector('#button-clear')
