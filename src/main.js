@@ -45,7 +45,7 @@ async function canvasClickHandler(e) {
   const { clientX, clientY } = e
   const x = clientX - this.offsetX
   const y = clientY - this.offsetY
-  const xPos = grid.getCloserColl(x)
+  const xPos = grid.getClosestColl(x)
   const dotInSelectedPos = Dot.dots.find((item) => item.x === xPos)
   if (dotInSelectedPos) {
     let yPos = dotInSelectedPos.y

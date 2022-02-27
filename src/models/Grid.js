@@ -34,7 +34,7 @@ export default class Grid {
     })
   }
 
-  getCloserColl(x) {
+  getClosestColl(x) {
     let minDistance = null
     let position = null
 
