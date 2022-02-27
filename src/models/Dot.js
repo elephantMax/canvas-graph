@@ -1,11 +1,11 @@
-import CanvasElement from './CanvasElement'
 import Line from './Line'
 
-export default class Dot extends CanvasElement {
+export default class Dot {
   static dots = []
 
   constructor(x, y) {
-    super(x, y)
+    this.x = x
+    this.y = y
     this.size = 5
     this.left = null
     this.right = null
