@@ -1,7 +1,7 @@
 const path = require('path')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 
-module.exports = {
+const config = {
   entry: './src/main.js',
   output: {
     path: path.resolve(__dirname, 'dist'),
@@ -21,4 +21,13 @@ module.exports = {
     }),
   ],
   mode: 'none',
+}
+
+module.exports = (env, argv) => {
+  if (env.deploy) {
+    config.mode = 'production'
+    config.output.publicPath = '/canvas-graph/'
+  }
+
+  return config
 }

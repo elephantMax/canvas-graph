@@ -38,24 +38,32 @@ export default class Dot extends CanvasElement {
   }
 
   getClosestLeft() {
-    const leftDots = Dot.dots
-      .filter((dot) => dot.x < this.x)
-      .sort((a, b) => (a.x < b.x ? 1 : b.x < a.x ? -1 : 0))
+    let minDistance = null
+    let closest = null
 
-    if (!leftDots.length) {
-      return null
-    }
-    return leftDots[0]
+    Dot.dots.forEach((dot) => {
+      if (dot.x >= this.x) return
+      const distance = Math.abs(dot.x - this.x)
+      if (minDistance === null || minDistance > distance) {
+        closest = dot
+        minDistance = distance
+      }
+    })
+    return closest
   }
 
   getClosestRight() {
-    const rightDots = Dot.dots
-      .filter((dot) => dot.x > this.x)
-      .sort((a, b) => (a.x > b.x ? 1 : b.x > a.x ? -1 : 0))
+    let minDistance = null
+    let closest = null
 
-    if (!rightDots.length) {
-      return null
-    }
-    return rightDots[0]
+    Dot.dots.forEach((dot) => {
+      if (dot.x <= this.x) return
+      const distance = Math.abs(dot.x - this.x)
+      if (minDistance === null || minDistance > distance) {
+        closest = dot
+        minDistance = distance
+      }
+    })
+    return closest
   }
 }

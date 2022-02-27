@@ -6,31 +6,39 @@ export default class Grid {
     this.width = options.width
     this.height = options.height
     this.lineWidth = options.lineWidth
-    this.positions = []
+    this.xPositions = []
+    this.yPositions = []
   }
 
-  draw(ctx) {
+  generateGrid() {
     const gapBetweenDotsX = Math.floor(this.width / this.colls)
     const gapBetweenDotsY = Math.floor(this.height / this.rows)
-
-    ctx.fillStyle = '#ABABAB'
     for (let i = 0; i <= this.colls; i++) {
       const x = this.marginX + i * gapBetweenDotsX
-      ctx.fillRect(x, 0, this.lineWidth, this.height)
-      this.positions.push(x)
+      this.xPositions.push(x)
     }
 
     for (let i = 0; i < this.rows; i++) {
       const y = this.marginX + i * gapBetweenDotsY
-      ctx.fillRect(0, y, this.width, this.lineWidth)
+      this.yPositions.push(y)
     }
   }
 
-  getCloserColl(x) {
+  draw(ctx) {
+    ctx.fillStyle = '#ABABAB'
+    this.xPositions.forEach((x) => {
+      ctx.fillRect(x, 0, this.lineWidth, this.height)
+    })
+    this.yPositions.forEach((y) => {
+      ctx.fillRect(0, y, this.width, this.lineWidth)
+    })
+  }
+
+  getClosestColl(x) {
     let minDistance = null
     let position = null
 
-    this.positions.forEach((pos) => {
+    this.xPositions.forEach((pos) => {
       const distance = Math.abs(x - pos)
 
       if (minDistance === null || distance <= minDistance) {
