@@ -1,28 +1,12 @@
-import Line from './Line'
+import Drawable from '../Drawable'
+import { ElementTypes } from '../../enum/ElementTypes'
 
-export default class Dot {
-  static dots = []
-
+export default class Dot extends Drawable {
   constructor(x, y) {
+    super(ElementTypes.DOT)
     this.x = x
     this.y = y
     this.size = 5
-    this.left = null
-    this.right = null
-    Dot.dots.push(this)
-  }
-
-  static connectDots() {
-    const dots = [...Dot.dots].sort((a, b) =>
-      a.x > b.x ? 1 : b.x > a.x ? -1 : 0
-    )
-
-    dots.forEach((dot) => {
-      const next = dot.getClosestRight()
-      if (!next) return
-
-      new Line(dot.x, dot.y, next.x, next.y)
-    })
   }
 
   draw(ctx) {

@@ -14,6 +14,6 @@ body {
   justify-content: flex-start;
 }
 
-#canvas {
+canvas {
   background-color: #d6d6d6;
 }
